@@ -14,7 +14,7 @@ const SIDES = [
   'Salad', 'Fries', 'Coleslaw', 'Steamed Veggies', 'Breadsticks', 'Mashed Potatoes', 'Roasted Veggies', 'Fruit Salad', 'Soup', 'Pickles', 'Beans', 'Cornbread',
 ];
 const COOKING_STYLES = [
-  'Microwave', 'Pan fry', 'Stir Fry', 'BBQ', 'Italian', 'Air Fryer', 'Baking', 'Grilling', 'Steaming', 'Slow Cooker', 'Roasting', 'Sous Vide',
+  'No Cooking', 'Microwave', 'Pan fry', 'Stir Fry', 'BBQ', 'Italian', 'Air Fryer', 'Baking', 'Grilling', 'Steaming', 'Slow Cooker', 'Roasting', 'Sous Vide',
 ];
 const MEAL_TYPES = [
   'Breakfast', 'Lunch', 'Dinner', 'Dessert', 'Snack', 'Brunch',
@@ -47,7 +47,7 @@ function App() {
       ...otherList,
     ];
     try {
-      const res = await fetch('http://localhost:5000/generate-recipe', {
+      const res = await fetch('https://ai-food-backend.onrender.com/generate-recipe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ingredients, style, mealType, why: customWhy }),
@@ -76,7 +76,7 @@ function App() {
 
   return (
     <div className="container">
-      <h1>AI Cooking Recipe App</h1>
+      <h1>AI Recipe Creator App</h1>
       <form className="form" onSubmit={handleSubmit}>
         {/* Show selected options summary */}
         <fieldset className="checkbox-group">
