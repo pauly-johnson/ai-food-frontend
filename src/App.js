@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './App.css';
 
 const MEATS = [
-  'Chicken', 'Beef', 'Pork', 'Fish', 'Turkey', 'Lamb', 'Duck', 'Sausage', 'Ham', 'Bacon', 'Shrimp', 'Crab', 'Lobster', 'Tofu', 'Tempeh',
+  'Steak', 'Mince', 'Sausage' ,'Chicken', 'Beef', 'Pork', 'Fish', 'Turkey', 'Lamb', 'Duck', 'Ham', 'Bacon', 'Shrimp', 'Crab', 'Lobster', 'Tofu', 'Tempeh',
 ];
 const VEGETABLES = [
   'Broccoli', 'Carrot', 'Spinach', 'Onion', 'Garlic', 'Peppers', 'Tomato', 'Zucchini', 'Cauliflower', 'Green Beans', 'Corn', 'Peas', 'Mushroom', 'Eggplant', 'Cabbage', 'Kale', 'Asparagus', 'Sweet Potato', 'Pumpkin',
