@@ -207,6 +207,22 @@ button:disabled {
 .other-form input.other-input:focus {
   border: 1.5px solid #818cf8;
 }
+.other-form-wrapper input.other-input {
+  padding: 0.35rem 0.7rem;
+  border-radius: 5px;
+  border: 1.2px solid #6366f1;
+  font-size: 0.98rem;
+  background: #18181b;
+  color: #e0e7ff;
+  transition: border 0.2s;
+  outline: none;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 0.5em;
+}
+.other-form-wrapper input.other-input:focus {
+  border: 1.5px solid #818cf8;
+}
 .other-add-btn {
   padding: 0.35rem 0.9rem;
   background: #6366f1;
