@@ -2,22 +2,22 @@ import React, { useState } from 'react';
 import './App.css';
 
 const MEATS = [
-  'Chicken', 'Beef', 'Pork', 'Fish', 'Turkey', 'Lamb',
+  'Chicken', 'Beef', 'Pork', 'Fish', 'Turkey', 'Lamb', 'Duck', 'Sausage', 'Ham', 'Bacon', 'Shrimp', 'Crab', 'Lobster', 'Tofu', 'Tempeh',
 ];
 const VEGETABLES = [
-  'Broccoli', 'Carrot', 'Spinach', 'Onion', 'Garlic', 'Peppers',
+  'Broccoli', 'Carrot', 'Spinach', 'Onion', 'Garlic', 'Peppers', 'Tomato', 'Zucchini', 'Cauliflower', 'Green Beans', 'Corn', 'Peas', 'Mushroom', 'Eggplant', 'Cabbage', 'Kale', 'Asparagus', 'Sweet Potato', 'Pumpkin',
 ];
 const CARBS = [
-  'Rice', 'Pasta', 'Potato', 'Bread', 'Quinoa', 'Noodles',
+  'Rice', 'Pasta', 'Potato', 'Bread', 'Quinoa', 'Noodles', 'Couscous', 'Tortilla', 'Barley', 'Oats', 'Polenta', 'Bagel', 'Bun', 'Crackers', 'Eggs',
 ];
 const SIDES = [
-  'Salad', 'Fries', 'Coleslaw', 'Steamed Veggies', 'Breadsticks',
+  'Salad', 'Fries', 'Coleslaw', 'Steamed Veggies', 'Breadsticks', 'Mashed Potatoes', 'Roasted Veggies', 'Fruit Salad', 'Soup', 'Pickles', 'Beans', 'Cornbread',
 ];
 const COOKING_STYLES = [
-  'Stir Fry', 'BBQ', 'Italian', 'Air Fryer', 'Baking',
+  'Microwave', 'Pan fry', 'Stir Fry', 'BBQ', 'Italian', 'Air Fryer', 'Baking', 'Grilling', 'Steaming', 'Slow Cooker', 'Roasting', 'Sous Vide',
 ];
 const MEAL_TYPES = [
-  'Breakfast', 'Lunch', 'Dinner', 'Dessert',
+  'Breakfast', 'Lunch', 'Dinner', 'Dessert', 'Snack', 'Brunch',
 ];
 
 function App() {
@@ -30,15 +30,9 @@ function App() {
   const [recipe, setRecipe] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-
-  const handleMultiSelect = (setter) => (e) => {
-    const { options } = e.target;
-    const selected = [];
-    for (let i = 0; i < options.length; i++) {
-      if (options[i].selected) selected.push(options[i].value);
-    }
-    setter(selected);
-  };
+  const [otherIngredients, setOtherIngredients] = useState("");
+  const [otherList, setOtherList] = useState([]);
+  const [customWhy, setCustomWhy] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -50,12 +44,13 @@ function App() {
       ...vegetables,
       ...carbs,
       ...sides,
+      ...otherList,
     ];
     try {
       const res = await fetch('http://localhost:5000/generate-recipe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ingredients, style, mealType }),
+        body: JSON.stringify({ ingredients, style, mealType, why: customWhy }),
       });
       if (!res.ok) throw new Error('Failed to generate recipe');
       const data = await res.json();
@@ -67,42 +62,125 @@ function App() {
     }
   };
 
+  const handleAddOther = (e) => {
+    e.preventDefault();
+    const trimmed = otherIngredients.trim();
+    if (trimmed && !otherList.includes(trimmed)) {
+      setOtherList([...otherList, trimmed]);
+      setOtherIngredients("");
+    }
+  };
+  const handleRemoveOther = (item) => {
+    setOtherList(otherList.filter(i => i !== item));
+  };
+
   return (
     <div className="container">
       <h1>AI Cooking Recipe App</h1>
       <form className="form" onSubmit={handleSubmit}>
-        <label>
-          Meats (select multiple):
-          <select multiple value={meats} onChange={handleMultiSelect(setMeats)}>
-            {MEATS.map((item) => (
-              <option key={item} value={item}>{item}</option>
+        {/* Show selected options summary */}
+        <fieldset className="checkbox-group">
+          <legend>Meats:</legend>
+          {MEATS.map((item) => (
+            <label key={item} className="checkbox-label">
+              <input
+                type="checkbox"
+                value={item}
+                checked={meats.includes(item)}
+                onChange={e => {
+                  if (e.target.checked) setMeats([...meats, item]);
+                  else setMeats(meats.filter(m => m !== item));
+                }}
+              />
+              {item}
+            </label>
+          ))}
+        </fieldset>
+        <fieldset className="checkbox-group">
+          <legend>Vegetables:</legend>
+          {VEGETABLES.map((item) => (
+            <label key={item} className="checkbox-label">
+              <input
+                type="checkbox"
+                value={item}
+                checked={vegetables.includes(item)}
+                onChange={e => {
+                  if (e.target.checked) setVegetables([...vegetables, item]);
+                  else setVegetables(vegetables.filter(v => v !== item));
+                }}
+              />
+              {item}
+            </label>
+          ))}
+        </fieldset>
+        <fieldset className="checkbox-group">
+          <legend>Carbs:</legend>
+          {CARBS.map((item) => (
+            <label key={item} className="checkbox-label">
+              <input
+                type="checkbox"
+                value={item}
+                checked={carbs.includes(item)}
+                onChange={e => {
+                  if (e.target.checked) setCarbs([...carbs, item]);
+                  else setCarbs(carbs.filter(c => c !== item));
+                }}
+              />
+              {item}
+            </label>
+          ))}
+        </fieldset>
+        <fieldset className="checkbox-group">
+          <legend>Sides:</legend>
+          {SIDES.map((item) => (
+            <label key={item} className="checkbox-label">
+              <input
+                type="checkbox"
+                value={item}
+                checked={sides.includes(item)}
+                onChange={e => {
+                  if (e.target.checked) setSides([...sides, item]);
+                  else setSides(sides.filter(s => s !== item));
+                }}
+              />
+              {item}
+            </label>
+          ))}
+        </fieldset>
+        <fieldset className="checkbox-group">
+          <legend>Other Ingredients:</legend>
+          <div className="other-form-wrapper">
+            <input
+              type="text"
+              value={otherIngredients}
+              onChange={e => setOtherIngredients(e.target.value)}
+              placeholder="Add ingredient..."
+              className="other-input"
+              maxLength={32}
+              onKeyDown={e => {
+                if (e.key === 'Enter') {
+                  e.preventDefault();
+                  handleAddOther();
+                }
+              }}
+            />
+            <button type="button" className="other-add-btn" onClick={handleAddOther}>Add</button>
+          </div>
+          <div className="other-list">
+            {otherList.map(item => (
+              <label key={item} className="other-chip">
+                <input
+                  type="checkbox"
+                  checked={true}
+                  readOnly
+                  style={{marginRight: '0.3em'}}
+                />
+                {item}
+                <button type="button" className="other-remove" onClick={() => handleRemoveOther(item)}>&times;</button>
+              </label>
             ))}
-          </select>
-        </label>
-        <label>
-          Vegetables (select multiple):
-          <select multiple value={vegetables} onChange={handleMultiSelect(setVegetables)}>
-            {VEGETABLES.map((item) => (
-              <option key={item} value={item}>{item}</option>
-            ))}
-          </select>
-        </label>
-        <label>
-          Carbs (select multiple):
-          <select multiple value={carbs} onChange={handleMultiSelect(setCarbs)}>
-            {CARBS.map((item) => (
-              <option key={item} value={item}>{item}</option>
-            ))}
-          </select>
-        </label>
-        <label>
-          Sides (select multiple):
-          <select multiple value={sides} onChange={handleMultiSelect(setSides)}>
-            {SIDES.map((item) => (
-              <option key={item} value={item}>{item}</option>
-            ))}
-          </select>
-        </label>
+          </div>
+        </fieldset>
         <label>
           Cooking Style:
           <select value={style} onChange={e => setStyle(e.target.value)} required>
@@ -121,6 +199,31 @@ function App() {
             ))}
           </select>
         </label>
+        <label>
+          Preferred way to cook an ingredient (optional):
+          <input
+            type="text"
+            value={customWhy}
+            onChange={e => setCustomWhy(e.target.value)}
+            placeholder="e.g. I like my eggs poched, fried, etc."
+            className="why-input"
+            maxLength={80}
+            style={{marginTop:'0.3em'}}
+          />
+        </label>
+        <div className="selected-summary">
+          <strong>Selected:</strong>
+          <ul>
+            <li>Meat: {meats.length ? meats.join(', ') : <em>None</em>}</li>
+            <li>Vegetable: {vegetables.length ? vegetables.join(', ') : <em>None</em>}</li>
+            <li>Carb: {carbs.length ? carbs.join(', ') : <em>None</em>}</li>
+            <li>Side: {sides.length ? sides.join(', ') : <em>None</em>}</li>
+            <li>Other: {otherList.length ? otherList.join(', ') : <em>None</em>}</li>
+            <li>Cooking Style: {style || <em>None</em>}</li>
+            <li>Meal Type: {mealType || <em>Any</em>}</li>
+            <li>Preferred: {customWhy ? customWhy : <em>None</em>}</li>
+          </ul>
+        </div>
         <button type="submit" disabled={loading || (!meats.length && !vegetables.length && !carbs.length && !sides.length) || !style}>
           {loading ? 'Generating...' : 'Generate Recipe'}
         </button>
