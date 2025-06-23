@@ -3,12 +3,12 @@
   "name": "AI Food Creator",
   "icons": [
     {
-      "src": "logo.png",
+      "src": "ai-food.png",
       "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+      "type": "image/png"
     },
     {
-      "src": "logo.png",
+      "src": "ai-food.png",
       "type": "image/png",
       "sizes": "192x192"
     },
@@ -21,5 +21,5 @@
   "start_url": ".",
   "display": "standalone",
   "theme_color": "#222831",
-  "background_color": "#222831"
+  "background_color": "#ffffff"
 }
