@@ -76,7 +76,8 @@ function App() {
 
   return (
     <div className="container">
-      <h1>AI Recipe Creator App</h1>
+      <h1>AI Recipe Creator</h1>
+      <h2 className="smart-title">Smart Meal Ideas Based on What You Have</h2>
       <form className="form" onSubmit={handleSubmit}>
         {/* Show selected options summary */}
         <fieldset className="checkbox-group">
