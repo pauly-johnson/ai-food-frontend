@@ -197,19 +197,6 @@ function App() {
             </label>
           ))}
         </fieldset>
-        <div className="serves-row">
-          <label htmlFor="serves-input" className="serves-label">Number of Serves:</label>
-          <input
-            id="serves-input"
-            type="number"
-            min={1}
-            max={20}
-            value={serves}
-            onChange={e => setServes(Number(e.target.value))}
-            className="serves-input"
-            required
-          />
-        </div>
         <fieldset className="checkbox-group">
           <legend>Other Ingredients:</legend>
           <div className="other-form-wrapper">
@@ -244,6 +231,19 @@ function App() {
             ))}
           </div>
         </fieldset>
+        <div className="serves-row">
+          <label htmlFor="serves-input" className="serves-label">Number of Serves:</label>
+          <input
+            id="serves-input"
+            type="number"
+            min={1}
+            max={20}
+            value={serves}
+            onChange={e => setServes(Number(e.target.value))}
+            className="serves-input"
+            required
+          />
+        </div>
         <label>
           Cooking Style:
           <select value={style} onChange={e => setStyle(e.target.value)} required>
