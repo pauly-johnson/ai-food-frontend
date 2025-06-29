@@ -1,5 +1,26 @@
+
 import React, { useState } from 'react';
 import './App.css';
+
+const PREFERENCES = [
+  'Low Carb',
+  'High Protein',
+  'High Fiber',
+  'Low Fat',
+  'Keto Friendly',
+  'Vegan',
+  'Vegetarian',
+  'Gluten-Free',
+  'Dairy-Free',
+  'Nut-Free',
+  'Heart Healthy',
+  'Diabetic Friendly',
+  'Muscle Gain',
+  'Weight Loss',
+  'Budget Friendly',
+  'Quick & Easy',
+  'Gourmet Style',
+];
 
 const MEATS = [
   'Steak', 'Mince', 'Sausage' ,'Chicken', 'Beef', 'Pork', 'Fish', 'Turkey', 'Lamb', 'Duck', 'Ham', 'Bacon', 'Shrimp', 'Crab', 'Lobster', 'Tofu', 'Tempeh',
@@ -33,6 +54,8 @@ function App() {
   const [otherIngredients, setOtherIngredients] = useState("");
   const [otherList, setOtherList] = useState([]);
   const [customWhy, setCustomWhy] = useState("");
+  const [serves, setServes] = useState(2);
+  const [preferences, setPreferences] = useState([]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -47,12 +70,20 @@ function App() {
       ...otherList,
     ];
     try {
-      const res = await fetch('https://ai-food-backend.onrender.com/generate-recipe', {
+      const res = await fetch('https://ai-food-creator.netlify.app/generate-recipe', {
+        //const res = await fetch('https://ai-food-backend-production.up.railway.app/generate-recipe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ingredients, style, mealType, why: customWhy }),
+        body: JSON.stringify({ ingredients, style, mealType, why: customWhy, serves, preferences }),
       });
-      if (!res.ok) throw new Error('Failed to generate recipe');
+      if (!res.ok) {
+        let errorMsg = 'Failed to generate recipe';
+        try {
+          const errorData = await res.json();
+          if (errorData && errorData.error) errorMsg += ': ' + errorData.error;
+        } catch {}
+        throw new Error(errorMsg);
+      }
       const data = await res.json();
       setRecipe(data);
     } catch (err) {
@@ -148,6 +179,37 @@ function App() {
             </label>
           ))}
         </fieldset>
+
+        <fieldset className="checkbox-group preferences-group">
+          <legend>Optional: Choose preferences such as dietary needs or health goals</legend>
+          {PREFERENCES.map((pref) => (
+            <label key={pref} className="checkbox-label">
+              <input
+                type="checkbox"
+                value={pref}
+                checked={preferences.includes(pref)}
+                onChange={e => {
+                  if (e.target.checked) setPreferences([...preferences, pref]);
+                  else setPreferences(preferences.filter(p => p !== pref));
+                }}
+              />
+              {pref}
+            </label>
+          ))}
+        </fieldset>
+        <div className="serves-row">
+          <label htmlFor="serves-input" className="serves-label">Number of Serves:</label>
+          <input
+            id="serves-input"
+            type="number"
+            min={1}
+            max={20}
+            value={serves}
+            onChange={e => setServes(Number(e.target.value))}
+            className="serves-input"
+            required
+          />
+        </div>
         <fieldset className="checkbox-group">
           <legend>Other Ingredients:</legend>
           <div className="other-form-wrapper">
@@ -220,6 +282,8 @@ function App() {
             <li>Carb: {carbs.length ? carbs.join(', ') : <em>None</em>}</li>
             <li>Side: {sides.length ? sides.join(', ') : <em>None</em>}</li>
             <li>Other: {otherList.length ? otherList.join(', ') : <em>None</em>}</li>
+            <li>Serves: {serves}</li>
+            <li>Preferences: {preferences.length ? preferences.join(', ') : <em>None</em>}</li>
             <li>Cooking Style: {style || <em>None</em>}</li>
             <li>Meal Type: {mealType || <em>Any</em>}</li>
             <li>Preferred: {customWhy ? customWhy : <em>None</em>}</li>

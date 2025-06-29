@@ -1,3 +1,49 @@
+/* Preferences group styling */
+.preferences-group {
+  margin-top: 0.5em;
+  margin-bottom: 0.7em;
+  border-color: #6366f1;
+  background: #18181b;
+}
+.preferences-group legend {
+  color: #a5b4fc;
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin-bottom: 0.3em;
+}
+/* Serves input styling */
+/* Serves input styled like other inputs */
+.serves-row {
+  display: flex;
+  align-items: center;
+  gap: 0.7em;
+  margin-bottom: 1em;
+}
+.serves-label {
+  font-size: 1rem;
+  margin-bottom: 0;
+  font-weight: 500;
+}
+.serves-input {
+  width: 100%;
+  max-width: 220px;
+  padding: 0.5em 0.9em;
+  border-radius: 8px;
+  border: 1.5px solid #6366f1;
+  background: #23272a;
+  color: #e2e8f0;
+  font-size: 1rem;
+  margin-top: 0.2em;
+  margin-bottom: 0.2em;
+  outline: none;
+  transition: border 0.2s, background 0.2s, color 0.2s;
+  box-sizing: border-box;
+}
+.serves-input:focus {
+  border: 1.5px solid #4fd1c5;
+  background: #181a1b;
+  color: #fff;
+}
 .App {
   text-align: center;
 }
