@@ -147,7 +147,8 @@ function App() {
     ];
     try {
       const res = await fetch(
-        "https://ai-food-creator.netlify.app/generate-recipe",
+        "https://ai-food-backend.onrender.com/generate-recipe",
+        
         {
           //const res = await fetch('https://ai-food-backend-production.up.railway.app/generate-recipe', {
           method: "POST",
