@@ -144,9 +144,9 @@ function App() {
       ...sides,
       ...otherList,
     ];
-    // deefksjb
+    
+    //const res = await fetch("https://ai-food-backend.onrender.com/generate-recipe", {
     try {
-      //const res = await fetch("https://ai-food-backend.onrender.com/generate-recipe", {
           const res = await fetch('https://ai-food-backend-production.up.railway.app/generate-recipe', {
           method: "POST",
           headers: { "Content-Type": "application/json" },
