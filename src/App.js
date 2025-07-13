@@ -76,7 +76,6 @@ const CARBS = [
   "Bagel",
   "Bun",
   "Crackers",
-  
 ];
 const SIDES = [
   "Salad",
@@ -146,11 +145,8 @@ function App() {
       ...otherList,
     ];
     try {
-      const res = await fetch(
-        "https://ai-food-backend.onrender.com/generate-recipe",
-        
-        {
-          //const res = await fetch('https://ai-food-backend-production.up.railway.app/generate-recipe', {
+      //const res = await fetch("https://ai-food-backend.onrender.com/generate-recipe", {
+          const res = await fetch('https://ai-food-backend-production.up.railway.app/generate-recipe', {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
