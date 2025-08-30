@@ -193,6 +193,7 @@ function App() {
     <div className="container">
       <h1>AI Recipe Creator</h1>
       <h2 className="smart-title">Smart Meal Ideas Based on What You Have</h2>
+      <p className="link-contact">Visit <a href="https://www.facebook.com/share/171f6vb4Z7/" target="_blank" rel="noreferrer">Pauly J</a> To check out my art page !</p>
       <form className="form" onSubmit={handleSubmit}>
         {/* Show selected options summary */}
         <fieldset className="checkbox-group">
